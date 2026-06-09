@@ -1,6 +1,5 @@
 const sqlite3 = require("sqlite3").verbose();
 const path = require("path");
-const db = require("./database");
 
 const db = new sqlite3.Database(path.join(__dirname, "database.db"), (err) => {
   if (err) {
@@ -10,7 +9,6 @@ const db = new sqlite3.Database(path.join(__dirname, "database.db"), (err) => {
   }
 });
 
-// Crear tablas si no existen
 db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS documentos (
@@ -30,11 +28,12 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       documento_id INTEGER NOT NULL,
       detalle TEXT NOT NULL,
-      fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (documento_id) REFERENCES documentos(id) ON DELETE CASCADE
+      fecha DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 });
+
+module.exports = db;
 app.get("/documentos", (req, res) => {
   db.all("SELECT * FROM documentos ORDER BY id DESC", [], (err, rows) => {
     if (err) return res.status(500).json(err);
@@ -129,5 +128,3 @@ app.delete("/seguimientos/:id", (req, res) => {
     res.json({ mensaje: "Seguimiento eliminado" });
   });
 });
-
-module.exports = db;
