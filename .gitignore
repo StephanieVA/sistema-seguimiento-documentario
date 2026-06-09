@@ -1,0 +1,21 @@
+# Angular
+agenda-documentos/node_modules/
+agenda-documentos/dist/
+agenda-documentos/.angular/
+
+# Node.js
+agenda-api/node_modules/
+
+# Variables de entorno
+agenda-api/.env
+
+# Logs
+*.log
+
+# Archivos temporales
+.cache/
+.tmp/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
